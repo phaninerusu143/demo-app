@@ -2,16 +2,14 @@ import React, { Component } from "react";
 class Form extends Component {
   state = {};
   render() {
-    const { state, handleChange, handleDisble, handleCheck } = this.props;
+    const { onSubmit,onChange,value,onClick,validate } = this.props;
     return (
       <form
-        action="//accounts.zoho.in/webclient/v1/register/initiate"
         autocomplete="off"
         className="banner-signup"
         name="signupform"
-        id="signupform"
-        method="post"
-        novalidate="novalidate"
+        onSubmit={onSubmit}
+       
       >
         <input type="hidden" className="langinput" name="language" value="" />
 
@@ -29,13 +27,13 @@ class Form extends Component {
                 aria-required="true"
                 aria-describedby="name-error"
                 aria-invalid="false"
-                onChange={handleChange}
-                value={state.data.firstname}
+                onChange={onChange}
+                value={value.data.firstname}
               />
               <div className="field-msg">
-                {state.errors.firstname && (
+                {value.errors.firstname && (
                   <span id="password-error" className="error jqval-error">
-                    {state.errors.firstname}
+                    {value.errors.firstname}
                   </span>
                 )}
               </div>
@@ -53,14 +51,14 @@ class Form extends Component {
                 placeholder=""
                 type="text"
                 aria-invalid="false"
-                onChange={handleChange}
-                value={state.data.email}
+                onChange={onChange}
+                value={value.data.email}
               />
 
               <div className="field-msg">
-                {state.errors.email && (
+                {value.errors.email && (
                   <span id="password-error" className="error jqval-error">
-                    {state.errors.email}
+                    {value.errors.email}
                   </span>
                 )}
               </div>
@@ -74,26 +72,26 @@ class Form extends Component {
               style={{ position: "relative;" }}
             >
               <span className="placeholder">Password *</span>
-              <span className={state.disbleClass} onClick={handleDisble}></span>
+              <span className={value.disbleClass} onClick={onClick}></span>
               <input
                 className=""
                 id="password"
                 name="password"
                 placeholder=""
-                type={state.password}
+                type={value.password}
                 aria-describedby="password-error"
                 aria-invalid="true"
-                onChange={handleChange}
-                value={state.data.password}
+                onChange={onChange}
+                value={value.data.password}
               />
 
               {/* {/* <!--<div className="password-strength" style="display: none;">-->
                     <!--  <div style="width: 10%; background-color: rgb(234, 2, 6);"></div>-->
                     <!--</div>-->}*/}
               <div className="field-msg">
-                {state.errors.password && (
+                {value.errors.password && (
                   <span id="password-error" className="error jqval-error">
-                    {state.errors.password}
+                    {value.errors.password}
                   </span>
                 )}
               </div>
@@ -155,13 +153,13 @@ class Form extends Component {
                 spellcheck="false"
                 type="text"
                 aria-invalid="false"
-                onChange={handleChange}
-                value={state.data.rmobile}
+                onChange={onChange}
+                value={value.data.rmobile}
               />
               <div className="field-msg">
-                {state.errors.rmobile && (
+                {value.errors.rmobile && (
                   <span id="password-error" className="error jqval-error">
-                    {state.errors.rmobile}
+                    {value.errors.rmobile}
                   </span>
                 )}
               </div>
@@ -208,8 +206,8 @@ class Form extends Component {
                   placeholder=""
                 />
                 <span
-                  className={state.check}
-                  onClick={handleCheck}
+                  className={value.check}
+                  // onClick={handleCheck}
                   id="signup-termservice"
                 >
                   &nbsp;
@@ -238,12 +236,11 @@ class Form extends Component {
             <div className="sgnbtn">
               <input
                 className="signupbtn"
-                onclick=" return zSignupPrevent();"
                 id="signupbtn"
                 type="submit"
                 value="Free Sign Up"
                 style={
-                  !this.validate() ? { opacity: " 1" } : { opacity: "0.5" }
+                  !validate() ? { opacity: " 1" } : { opacity: "0.5" }
                 }
                 placeholder=""
                 disabled

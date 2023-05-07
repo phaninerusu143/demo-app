@@ -48,8 +48,8 @@ class Main extends Component {
     const schema = {
       firstname: joi.string().required().label("Name"),
       email: joi.string().email().label("email"),
-      password: joi.string().min(8).max(8).label("Password"),
-      rmobile: joi.number().min(10).required().label("Mobile Number"),
+      password: joi.string().min(8),
+      rmobile: joi.number().length(10).required().label("Mobile Number"),
     };
 
     const dmSchema = {
@@ -139,12 +139,14 @@ class Main extends Component {
                   style={{ opacity: "1", visibility: "visible" }}
                 >
                   <div id="czone-signup" className="czone-dc">
-                    <Form
-                      value={this.state}
-                      handleChange={this.handleChange}
-                      handleDisble={this.handleDisble}
-                      handleCheck={this.handleCheck}
-                    />
+
+
+                    {/* form component */}
+               <Form onSubmit={this.handleSubmit} onChange={this.handleChange}
+                value={this.state} onClick={this.handleDisble} validate={this.validate}/>  
+
+
+
                   </div>
                 </div>
 
