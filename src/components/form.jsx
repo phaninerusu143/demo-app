@@ -1,8 +1,36 @@
 import React, { Component } from "react";
 class Form extends Component {
-  state = {};
+  state = {
+    password: "password",
+    check: "unchecked",
+    disbleClass: "zpassword-show",
+  };
+  handleCheck = (e) => {
+    console.log("hi", e.currentTarget.className);
+    if (e.currentTarget.className === "unchecked") {
+      console.log("this condition");
+
+      this.setState({ check: "checked" });
+    } else {
+      this.setState({ check: "unchecked" });
+    }
+  };
+  handleDisble = (e) => {
+    alert("hi");
+    console.log("hi", e.currentTarget.className);
+    if (e.currentTarget.className === "zpassword-show") {
+      console.log("disble eyee", e.currentTarget.className);
+      this.setState({ disbleClass: "zpassword-show active", password: "text" });
+    } else {
+      this.setState({ disbleClass: "zpassword-show", password: "password" });
+    }
+  };
+  
+ 
+
   render() {
-    const { onSubmit,onChange,value,onClick,validate } = this.props;
+    const { onSubmit,onChange,value,validate } = this.props;
+    console.log(this.props);
     return (
       <form
         autocomplete="off"
@@ -72,13 +100,13 @@ class Form extends Component {
               style={{ position: "relative;" }}
             >
               <span className="placeholder">Password *</span>
-              <span className={value.disbleClass} onClick={onClick}></span>
+              <span className={this.state.disbleClass} onClick={this.handleDisble}></span>
               <input
                 className=""
                 id="password"
                 name="password"
                 placeholder=""
-                type={value.password}
+                type={this.state.password}
                 aria-describedby="password-error"
                 aria-invalid="true"
                 onChange={onChange}
@@ -206,8 +234,8 @@ class Form extends Component {
                   placeholder=""
                 />
                 <span
-                  className={value.check}
-                  // onClick={handleCheck}
+                  className={this.state.check}
+                  onClick={this.handleCheck}
                   id="signup-termservice"
                 >
                   &nbsp;
@@ -243,8 +271,9 @@ class Form extends Component {
                   !validate() ? { opacity: " 1" } : { opacity: "0.5" }
                 }
                 placeholder=""
-                disabled
+                disabled={validate()}
               />
+              
             </div>
           </div>
           {/* //social media */}

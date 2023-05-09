@@ -2,6 +2,7 @@ import React, { Component } from "react";
 class Signotp extends Component {
   state = {};
   render() {
+    const {mobile, handleChangemobile}=this.props;
     return (
       <div>
         <span className="signupotpcontainer" style={{}}>
@@ -10,8 +11,8 @@ class Signotp extends Component {
             Enter the one-time password sent to your mobile number.
           </div>
           <div className="otpmobile">
-            <span id="mobileotp">1234567891</span>{" "}
-            <span className="change" onclick="gobacktosignuptemp()">
+            <span id="mobileotp">{mobile}</span>{" "}
+            <span className="change" onClick={handleChangemobile}>
               Change
             </span>
           </div>

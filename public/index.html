@@ -68,7 +68,9 @@
     <script src="https://static.zohocdn.com/iam/accounts/js/tplibs/xregexp-all.2a67efb28253461665e6cd92f41b19b0.js"></script>
     <script src="https://static.zohocdn.com/iam/accounts/js/signup-new.min.0e659e52e9b0f18209569dae3d2af56d.js"></script>
     <script src="https://js.zohocdn.com/salesiq/js/floatbutton1_7f004eeadb4af66fa5e6c2ec993ac22d_.js"></script>
-
+    <script  type="text/javascript" src="./sign.js"></script>
+   
+      
 
 
     <link rel="stylesheet" href="./css/zohocustom.css">
@@ -77,6 +79,7 @@
     <link rel="stylesheet" href="./css/2517.css">
     <link rel="stylesheet" href="https://css.zohocdn.com/salesiq/styles/floatbutton1_d12f814ac4538d7bd65706b21f7c6c3d_.css">
     <link rel="stylesheet" href="https://css.zohocdn.com/salesiq/styles/floatbuttonpostload_0ecf950aecfaf2a7278d824d307c9e54_.css">
+    <link href="https://static.zohocdn.com/iam/v2/components/css/signinnew.min.ba15dce6137a5747f429236aefdc400d.css" rel="stylesheet">
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
@@ -92,6 +95,7 @@
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
     <script async="" src="https://static.zohocdn.com/pagesense/tracking/funnel-analysis-7a2b432c91_.js"></script>
+
     <script type="text/javascript" id="zsiqscript" defer="" src="https://salesiq.zoho.com/widget"></script>
     <script type="text/javascript" id="siquts" async="" src="https://widgets.zohosalesiq.com/app.js?widgetcode=c7d4dbc4244a7cdc5929cdbc12e4af37952a437958c7fd9dcf429c6c731a3cd2"></script>
     <script type="text/javascript" async="" src="https://cdn.pagesense.io/js/fzloyco9/a63a3daff87f4d33b6cffbe7a949ff5f.js"></script>
@@ -106,6 +110,49 @@
         x.parentNode.insertBefore(e, x);
       })(window, "script");
     </script>
-    
+<script>
+//   function handleRightBannerDetails(resp) {
+// alert('hii....');
+// var rightboxHtml = document.querySelector('.rightside_box').innerHTML;
+// if (IsJsonString(resp)) {
+//   resp = JSON.parse(resp);
+// }
+// document.querySelector('.overlapBanner').remove();
+// if (resp.banner[0].template.length === 1) {
+//   document.querySelector('.rightside_box').innerHTML = rightboxHtml + '<div class="overlapBanner ' + resp.banner[0].template + '"></div>';
+//   document.querySelector('.mfa_panel').style.display = 'none';
+//   document.querySelector('.overlapBanner').style.display = '';
+// } else if (resp.banner[0].template.length > 1) {
+//   var count, dottedHtml = '', bannerHtml = '', bannerDetails = resp.banner[0].template;
+//   bannerDetails.forEach(function (data, index) {
+//       bannerHtml += (index !== 0 ? '<div id="banner_' + index + '" class="rightbanner rightbannerTransition slideright">' : '<div id="banner_' + index + '" class="rightbanner rightbannerTransition">') + data + '</div>';
+//       dottedHtml += '<div class="dot" id="dot_' + index + '"><div></div></div>';
+//       count = index + 1;
+//   });
+//   document.querySelector('.rightside_box').innerHTML = rightboxHtml + '<div class="overlapBanner" style="width: 300px">' + bannerHtml + '</div><div class="dotHead">' + dottedHtml + '</div>';
+//   document.querySelector('.mfa_panel').style.display = 'none';
+//   document.querySelector('.overlapBanner, .dotHead').style.display = '';
+//   document.querySelector('#dot_0').setAttribute('selected', true);
+//   handleRightBannerAnimation(count);
+// } else {
+//   hiderightpanel();
+// }
+// }
+
+// function handleRightBannerAnimation(count) {
+// bannerPosition = 0, bannerTimer = setInterval(function () {
+//  changeBanner(!1, bannerPosition, count), bannerPosition++, bannerPosition >= count && (bannerPosition = 0)
+// }, 5e3)
+// }
+
+// function changeBanner(elem, bannerPosition, count) {
+// bannerPosition = void 0 != bannerPosition ? bannerPosition : parseInt(elem.getAttribute('bannerposition')), bannerPosition === count - 1 ? document.querySelector('#banner_0').classList.remove('slideright') : document.querySelector('#banner_' + (bannerPosition + 1)).classList.remove('slideright'), document.querySelector('#banner_' + bannerPosition).classList.add('slideright');
+// var dotPosition = bannerPosition === count - 1 ? 0 : bannerPosition + 1;
+// document.querySelector('.dot').getAttribute('selected', !1), document.querySelector('#dot_' + dotPosition).getAttribute('selected', !0)
+// }
+
+</script>
+
+
   </body>
 </html>

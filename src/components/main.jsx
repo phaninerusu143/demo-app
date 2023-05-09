@@ -1,25 +1,28 @@
 import React, { Component } from "react";
+import {Link} from 'react-router-dom'
 import joi from "joi-browser";
 import Form from "./form";
+import Signotp from "./signOtp";
+import Joi from 'joi';
 class Main extends Component {
   state = {
     data: { firstname: "", email: "", password: "", rmobile: "" },
-    password: "password",
-    check: "unchecked",
-    disbleClass: "zpassword-show",
     errors: {},
+    otppage:false
   };
   schema = {
     firstname: joi.string().required().label("Username"),
     email: joi.string().required().label("Email"),
     password: joi.string().required().label("Password"),
     rmobile: joi.number().required().label("Mobile"),
-  };
+     };
 
+  
   validate = () => {
     const { error } = joi.validate(this.state.data, this.schema, {
       abortEarly: false,
     });
+    
     if (!error) return null;
     const errors = {};
     for (let t of error.details) {
@@ -49,7 +52,7 @@ class Main extends Component {
       firstname: joi.string().required().label("Name"),
       email: joi.string().email().label("email"),
       password: joi.string().min(8),
-      rmobile: joi.number().length(10).required().label("Mobile Number"),
+      rmobile: joi.number().required().label("Mobile Number"),
     };
 
     const dmSchema = {
@@ -75,35 +78,45 @@ class Main extends Component {
     data[input.name] = input.value;
     this.setState({ data, errors });
   };
-
-  handleDisble = (e) => {
-    alert("hi");
-    console.log("hi", e.currentTarget.className);
-    if (e.currentTarget.className === "zpassword-show") {
-      console.log("disble eyee", e.currentTarget.className);
-      this.setState({ disbleClass: "zpassword-show active", password: "text" });
-    } else {
-      this.setState({ disbleClass: "zpassword-show", password: "password" });
+  handleSubmit =(e)=>
+  {
+    e.preventDefault();
+    alert('hi this main');
+    console.log('hii this........................')
+    if(!this.state.otppage)
+  {
+         this.setState({otppage:true})
+  }
+    
+  }
+  handleChangemobile=()=>{
+    console.log('this is handleChangemobile',this.state.otppage);
+    if(this.state.otppage){
+      this.setState({otppage:false})
     }
-  };
+  }
+ 
   render() {
+    console.log('this is main component state',this.state)
+    console.log('this is main component props',this.props)
+
     return (
       <React.Fragment>
         <main>
           <div className="zw-template-inner">
             <div className="z-signup-page-wrap ">
               <div className="header-part zohodark-bg">
-                <a className="logo" href="/" style={{ opacity: " 1;" }}>
+                <a className="logo" href="/" style={{ opacity: " 1;" }}>  
                   ZOHO{" "}
                 </a>
                 <span className="login-text">
                   Have a Codegene Account?{" "}
-                  <a
+                  <Link
                     className="login zgh-login"
-                    href="https://accounts.zoho.in/signin?servicename=zohopeople&amp;signupurl=https://www.zoho.com/people/signup.html"
+                    to='/login'
                   >
                     SIGN IN
-                  </a>
+                  </Link>
                 </span>
               </div>
 
@@ -140,10 +153,9 @@ class Main extends Component {
                 >
                   <div id="czone-signup" className="czone-dc">
 
-
-                    {/* form component */}
+{this.state.otppage?<Signotp mobile={this.state.data.rmobile} handleChangemobile={this.handleChangemobile}></Signotp>:
                <Form onSubmit={this.handleSubmit} onChange={this.handleChange}
-                value={this.state} onClick={this.handleDisble} validate={this.validate}/>  
+                value={this.state} onClick={this.handleDisble} validate={this.validate}/> } 
 
 
 
