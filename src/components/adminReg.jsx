@@ -8,6 +8,7 @@ class Adminreg extends Component {
       <React.Fragment>
         <Header />
         <Main />
+        {/* phani */}
       </React.Fragment>
     );
   }
