@@ -1,14 +1,26 @@
 import React, { Component } from 'react'
 import CarouselSlider from './carouselslider';
+import Data from './data';
 class Sign extends Component {
     state = {  }
 	signdata=React.createRef();
 	formInput=React.createRef();
 	showMoreIdps=(e)=>{
-		console.log('data......................................',this.signdata.current.style);
+		console.log('data......................................',this.signdata.current.children[1].tagName);
 		this.signdata.current.style.display='block'
 		this.formInput.current.style.display='none'
 		e.currentTarget.style.display='none';
+		const childTag=Array.from(this.signdata.current.children);
+		childTag.map((tag)=>{
+			if(tag.tagName === 'SPAN' || tag.className==='zohosignin hide')
+			{
+				let fd=tag.className; 
+				console.log('child classname',tag.className,tag )
+				tag.className=fd.replace("small_box", "large_box");
+				if(tag.className==='zohosignin hide')tag.className='zohosignin'
+			}
+		})
+		
 	}
     render() { 
         return (
