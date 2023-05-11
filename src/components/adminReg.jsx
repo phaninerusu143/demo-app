@@ -9,7 +9,7 @@ class Adminreg extends Component {
         <Header />
         <Main />
         {/* phani */}
-        <div></div>
+       
       </React.Fragment>
     );
   }

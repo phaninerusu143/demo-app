@@ -22,6 +22,12 @@ class Sign extends Component {
 		})
 		
 	}
+	handleSign=()=>{
+		alert('hi');
+		const login=document.getElementById('login_id_container');
+		login.style.display='none'
+		document.getElementById('password_container').classList.add('getpassword');
+	}
     render() { 
         return (
             <React.Fragment>
@@ -50,7 +56,7 @@ class Sign extends Component {
 				<div className="smartsigninbutton" id="smartsigninbtn" onclick="openSmartSignInPage()"> <span className="ssibuttonqricon icon-SmartQR"></span> <span>Try smart sign-in</span> <span className="ssibuttonshineicon icon-shine"></span> </div>
 				<div className="zoho_logo zohopeople"></div>
 				<div id="signin_div">
-					<form name="login" id="login" onsubmit="" novalidate="" ref={this.formInput}>
+					<form name="login" id="login"  ref={this.formInput}>
 						<div className="signin_head"> <span id="headtitle">Sign in</span> <span id="trytitle"></span>
 							<div className="service_name">to access <span>People</span></div>
 							<div className="fielderror"></div>
@@ -169,7 +175,7 @@ class Sign extends Component {
 							<div className="text16 pointer nomargin" id="problemsignin_mob" onclick="showproblemsignin()">Problem signing in?</div>
 						</div>
 						<div id="problemsigninui"></div>
-						<button className="btn blue" id="nextbtn" tabindex="2"><span>Next</span></button>
+						<button className="btn blue" id="nextbtn" tabindex="2" onClick={this.handleSign}><span>Next</span></button>
 						<div className="btn borderless" onclick="hideBackupOptions()">Back</div>
 						<div className="text16 pointer nomargin" id="recoverybtn" onclick="showCantAccessDevice()">Can't access your device?</div>
 						<div className="text16 pointer nomargin" id="problemsignin" onclick="showproblemsignin()">Problem signing in?</div>
