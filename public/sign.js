@@ -1,3 +1,5 @@
+import $ from 'jquery';
+
 function strToBin(str) {
     return Uint8Array.from(atob(str), function (c) {
        return c.charCodeAt(0)

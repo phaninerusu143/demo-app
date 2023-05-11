@@ -22,11 +22,23 @@ class Sign extends Component {
 		})
 		
 	}
-	handleSign=()=>{
+	handleSign=(e)=>{
+		e.preventDefault();
 		alert('hi');
 		const login=document.getElementById('login_id_container');
-		login.style.display='none'
-		document.getElementById('password_container').classList.add('getpassword');
+		login.style.display='none';
+		document.getElementsByClassName('textbox_actions')[0].style.display='block';
+		document.getElementById('password_container').classList.value='getpassword';
+		document.getElementById('forgotpassword').style.display='none';
+		document.getElementById('enableotpoption').style.display='block;';
+		document.getElementsByClassName('fed_2show')[0].style.display='none';
+		document.getElementsByClassName('line')[0].style.display='none';
+		const btn=document.getElementById('nextbtn');
+		btn.children[0].innerHTML='Sign';
+		console.log('blue btn',document.getElementById('password_container').classList.value)
+
+	// 	document.getElementById('password_container').classList.remove('getpassword zeroheight');
+	// 	document.getElementById('password_container').classList.add('getpassword');
 	}
     render() { 
         return (
@@ -84,7 +96,7 @@ class Sign extends Component {
 							</div>
 							<div className="getpassword zeroheight" id="password_container">
 								<div className="hellouser">
-									<div className="username"></div> <span className="Notyou bluetext" onclick="resetForm()">Change</span> </div>
+									<div className="username">'phanikumAR@gmail.com'</div> <span className="Notyou bluetext" onclick="resetForm()">Change</span> </div>
 								<div className="textbox_div">
 									<input id="password" placeholder="Enter password" name="PASSWORD" type="password" className="textbox" required="" onfocus="this.value = this.value;" onkeypress="clearCommonError('password')" autocapitalize="off" autocomplete="password" autocorrect="off" maxlength="250"/> <span className="icon-hide show_hide_password" onclick="showHidePassword();">
 									</span>

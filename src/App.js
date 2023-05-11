@@ -2,6 +2,7 @@
 import './App.css';
 import Adminreg from './components/adminReg';
 import Sign from './components/sign';
+import $ from 'jquery'
 
 import { Redirect, Route,Switch } from 'react-router-dom'
 
