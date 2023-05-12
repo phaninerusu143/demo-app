@@ -8,73 +8,116 @@ class Main extends Component {
   state = {
     data: { firstname: "", email: "", password: "", rmobile: "" },
     errors: {},
-    otppage:false
+    otppage:false,
+    check:""
+    
   };
-  schema = {
-    firstname: joi.string().required().label("Username"),
-    email: joi.string().required().label("Email"),
-    password: joi.string().required().label("Password"),
-    rmobile: joi.number().required().label("Mobile"),
-     };
+  // schema = {
+  //   firstname: joi.string().required().label("Username"),
+  //   email: joi.string()
+  //   .email({ tlds: { allow: false } })
+  //   .min(5)
+  //   .max(250)
+  //   .required(),
+  //   password:joi.string()
+  //   .min(8)
+  //     .max(25)
+  //     .regex(
+  //       /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+  //       "password"
+  //     ).label('password'),
+    
+  //   rmobile: joi.string().regex(/^[0-9]{10}$/).required().label("Mobile"),
+  //    };
+validationRoles={
+  firstname:Joi.string().min(2).max(55).required().label('Firstname'),
+  email:Joi.string().email({ tlds: { allow: false } }),
+  password:Joi.string()
+  .min(8)
+  .pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/)
+  .required()
+  .label('Password')
+  .messages({
+    'string.pattern.base': 'Password must contain at least one uppercase letter, one lowercase letter, one digit, and one special character',
+  }),
+  rmobile:Joi.string()
+  .pattern(/^[6-9][0-9]{9}$/) // Pattern for a 10-digit mobile number
+  .required()
+  .label('Mobile Number')
+  .messages({
+    'string.pattern.base': 'Enter valid Mobile number must be a valid 10-digit number',
+  })
+
+}
+
+schema=Joi.object(this.validationRoles)
 
   
   validate = () => {
-    const { error } = joi.validate(this.state.data, this.schema, {
+    const { error } = this.schema.validate(this.state.data, {
       abortEarly: false,
     });
     
     if (!error) return null;
+    console.log("------>" +error);
     const errors = {};
     for (let t of error.details) {
-      console.log("------>" + t);
+      
 
       errors[t.path[0]] = t.message;
 
       console.log("------>" + errors);
     }
-    console.log(errors);
+    console.log('data',errors);
     return errors;
   };
 
   handleCheck = (e) => {
+    alert('checked')
     console.log("hi", e.currentTarget.className);
-    if (e.currentTarget.className === "unchecked") {
+    if (e.currentTarget.className === "") {
       console.log("this condition");
+
 
       this.setState({ check: "checked" });
     } else {
-      this.setState({ check: "unchecked" });
+      this.setState({ check: "" });
     }
   };
+  
+    
 
   validateProperty = ({ name, value }) => {
-    const schema = {
-      firstname: joi.string().required().label("Name"),
-      email: joi.string().email().label("email"),
-      password: joi.string().min(8),
-      rmobile: joi.number().required().label("Mobile Number"),
-    };
+    console.log('validate property calling');
+    const passworderror=new Error('this not pattern')
+    
 
-    const dmSchema = {
-      name: schema[name],
-    };
+    let dmSchema =Joi.object({
+      [name]:this.validationRoles[name],
+    });
 
     const data = {
-      name: value,
+      [name]: value,
     };
+console.log('handle property checking schema',{[name]:this.validationRoles[name]});
+const { error } = dmSchema.validate(data);
 
-    const { error } = joi.validate(data, dmSchema);
-
-    return error ? error.details[0].message : null;
+    console.log('handleError to this handleProperty ..........',error);
+    return error ? error.details[0].message :null ;
   };
 
   handleChange = ({ currentTarget: input }) => {
-    const errors = { ...this.state.errors };
+    let errors = { ...this.state.errors };
+    console.log('handle cureent filed in handlechange',input.name)
     const errorMessage = this.validateProperty(input);
-    if (errorMessage) errors[input.name] = errorMessage;
-    else delete errors[input.name];
-
+    console.log('handleChange in main jsx',errorMessage)
+    if (errorMessage){
+      console.log('this is errorMessage',errorMessage)
+       errors[input.name] = errorMessage;}
+    else {delete errors[input.name];}
+      
     const data = { ...this.state.data };
+    console.log('handlechange in errors object',errors)
     data[input.name] = input.value;
     this.setState({ data, errors });
   };
@@ -97,9 +140,10 @@ class Main extends Component {
   }
  
   render() {
-    console.log('this is main component state',this.state)
-    console.log('this is main component props',this.props)
-
+    // console.log('this is main component state',this.state)
+    // console.log('this is main component props',this.props)
+    // console.log('this is main component Joi',joi)
+console.log('this is render method',this.state.errors);
     return (
       <React.Fragment>
         <main>
@@ -155,7 +199,7 @@ class Main extends Component {
 
 {this.state.otppage?<Signotp mobile={this.state.data.rmobile} handleChangemobile={this.handleChangemobile}></Signotp>:
                <Form onSubmit={this.handleSubmit} onChange={this.handleChange}
-                value={this.state} onClick={this.handleDisble} validate={this.validate}/> } 
+                value={this.state} onClick={this.handleDisble} validate={this.validate} handleCheck={this.handleCheck}/> } 
 
 
 

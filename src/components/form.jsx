@@ -2,19 +2,19 @@ import React, { Component } from "react";
 class Form extends Component {
   state = {
     password: "password",
-    check: "unchecked",
+    check: "",
     disbleClass: "zpassword-show",
   };
-  handleCheck = (e) => {
-    console.log("hi", e.currentTarget.className);
-    if (e.currentTarget.className === "unchecked") {
-      console.log("this condition");
+  // handleCheck = (e) => {
+  //   console.log("hi", e.currentTarget.className);
+  //   if (e.currentTarget.className === "unchecked") {
+  //     console.log("this condition");
 
-      this.setState({ check: "checked" });
-    } else {
-      this.setState({ check: "unchecked" });
-    }
-  };
+  //     this.setState({ check: "checked" });
+  //   } else {
+  //     this.setState({ check: "" });
+  //   }
+  // };
   handleDisble = (e) => {
     alert("hi");
     console.log("hi", e.currentTarget.className);
@@ -29,8 +29,8 @@ class Form extends Component {
  
 
   render() {
-    const { onSubmit,onChange,value,validate } = this.props;
-    console.log(this.props);
+    const { onSubmit,onChange,value,validate,handleCheck} = this.props;
+    console.log('this is form',this.props);
     return (
       <form
         autocomplete="off"
@@ -234,8 +234,8 @@ class Form extends Component {
                   placeholder=""
                 />
                 <span
-                  className={this.state.check}
-                  onClick={this.handleCheck}
+                  className={value.check?'checked':'unchecked'}
+                  onClick={(e)=>handleCheck(e)}
                   id="signup-termservice"
                 >
                   &nbsp;
