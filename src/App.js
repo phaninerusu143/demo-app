@@ -1,24 +1,29 @@
 // import logo from './logo.svg';
 import './App.css';
-import Adminreg from './components/adminReg';
-import Sign from './components/sign';
-import $ from 'jquery'
+import Logout from './components/Logout/Logout';
 
-import { Redirect, Route,Switch } from 'react-router-dom'
+import Adminreg from './components/adminReg';
+import Forgotpassword from './components/forgotPassword';
+import Sign from './components/sign';
+import { Redirect, Route, Routes } from 'react-router-dom';
 
 
 function App() {
   return (
-   <div className='contnent'>
-    <Switch>
-          <Route path='/login' component={Sign}></Route>
-          <Route path='/' exact component={Adminreg}></Route>
-    </Switch>
+   
+    <Routes>
+          <Route path='/' element={<Adminreg/>}/>
+          <Route path='/login' element={<Sign/>}/>
+          <Route path='/logout'  element={<Logout></Logout>}></Route>
+          <Route  path='/forgotpassword' element={<Forgotpassword></Forgotpassword>}></Route>
+          
+    </Routes>
+    
 
  
 
 
-   </div>
+   
      );
 }
 

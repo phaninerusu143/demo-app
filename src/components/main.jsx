@@ -6,7 +6,7 @@ import Signotp from "./signOtp";
 import Joi from 'joi';
 class Main extends Component {
   state = {
-    data: { firstname: "", email: "", password: "", rmobile: "" },
+    data: { firstname: "", email: "", password: "", rmobile: ""},
     errors: {},
     otppage:false,
     check:""
@@ -46,8 +46,8 @@ validationRoles={
   .label('Mobile Number')
   .messages({
     'string.pattern.base': 'Enter valid Mobile number must be a valid 10-digit number',
-  })
-
+  }),
+check:Joi.string().required()
 }
 
 schema=Joi.object(this.validationRoles)
@@ -75,7 +75,7 @@ schema=Joi.object(this.validationRoles)
   handleCheck = (e) => {
     alert('checked')
     console.log("hi", e.currentTarget.className);
-    if (e.currentTarget.className === "") {
+    if (this.state.check === "") {
       console.log("this condition");
 
 
@@ -89,7 +89,6 @@ schema=Joi.object(this.validationRoles)
 
   validateProperty = ({ name, value }) => {
     console.log('validate property calling');
-    const passworderror=new Error('this not pattern')
     
 
     let dmSchema =Joi.object({

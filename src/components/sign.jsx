@@ -1,10 +1,89 @@
 import React, { Component } from 'react'
-import CarouselSlider from './carouselslider';
-import Data from './data';
+import './css/signinnew.min.5f16472f773ea0ff3caa7a3fff2e7e06.css'
+import { pushRoute } from './pushRoute';
+import Joi from 'joi';
 class Sign extends Component {
-    state = {  }
+    state = { data:{LOGIN_ID:''},
+              errors:{},
+			  getPassword:'',
+			  showHidePassword:'icon-hide show_hide_password',
+			  inputFelid:'password'
+
+}
+
+
+
+validationRoles={
+	LOGIN_ID:Joi.string().min(2).max(55).required().label('email address or mobile number').messages({
+		'string.empty': 'Please enter your email address or mobile number',
+	  }),
+}
+schema=Joi.object(this.validationRoles)
+
+
+validate = () => {
+    const { error } = this.schema.validate(this.state.data, {
+      abortEarly: false,
+    });
+    console.log()
+    if (!error) return null;
+    console.log("------>" +error);
+    const errors = {};
+    for (let t of error.details) {
+      
+
+      errors[t.path[0]] = t.message;
+
+      console.log("------>" + errors);
+    }
+    console.log('data',errors);
+    return errors;
+  };
+
+  
+
 	signdata=React.createRef();
 	formInput=React.createRef();
+
+	validateProperty = ({ name, value }) => {
+		console.log('validate property calling');
+		
+	
+		let dmSchema =Joi.object({
+		  [name]:this.validationRoles[name],
+		});
+	
+		const data = {
+		  [name]: value,
+		};
+
+
+		console.log('handle property checking schema',{[name]:this.validationRoles[name]});
+const { error } = dmSchema.validate(data);
+
+    console.log('handleError to this handleProperty ..........',error);
+    return error ? error.details[0].message :null ;
+
+	}
+
+
+	hangleChange=({currentTarget:input})=>{
+
+		let errors = { ...this.state.errors };
+		console.log('handle cureent filed in handlechange',input.name)
+		const errorMessage = this.validateProperty(input);
+		console.log('handleChange in main jsx',errorMessage)
+		if (errorMessage){
+		  console.log('this is errorMessage',errorMessage)
+		   errors[input.name] = errorMessage;}
+		else {delete errors[input.name];}
+
+		console.log('handle change..');
+		const {data}=this.state;
+		data.LOGIN_ID=input.value;
+		this.setState({data,errors});
+
+	}
 	showMoreIdps=(e)=>{
 		console.log('data......................................',this.signdata.current.children[1].tagName);
 		this.signdata.current.style.display='block'
@@ -25,24 +104,44 @@ class Sign extends Component {
 	handleSign=(e)=>{
 		e.preventDefault();
 		alert('hi');
-		const login=document.getElementById('login_id_container');
-		login.style.display='none';
-		document.getElementsByClassName('textbox_actions')[0].style.display='block';
-		document.getElementById('password_container').classList.value='getpassword';
-		document.getElementById('forgotpassword').style.display='none';
-		document.getElementById('enableotpoption').style.display='block;';
-		document.getElementsByClassName('fed_2show')[0].style.display='none';
-		document.getElementsByClassName('line')[0].style.display='none';
-		const btn=document.getElementById('nextbtn');
-		btn.children[0].innerHTML='Sign';
-		console.log('blue btn',document.getElementById('password_container').classList.value)
+const error=this.validate();
+console.log(error);
+this.setState({errors:error||{}})
 
-	// 	document.getElementById('password_container').classList.remove('getpassword zeroheight');
-	// 	document.getElementById('password_container').classList.add('getpassword');
+if(!this.validate()){
+this.setState({getPassword:'visible'})	
+}
+
+		
+	}
+	rightSide=()=>
+	{
+		alert('rightSide calling')
+	}
+	handleForGot=()=>
+	{
+		console.log('handleForGot',this.props);
+		this.props.navigate("/forgotpassword",{state:this.state});
+	}
+	handleUserId=()=>{
+		this.setState({getPassword:''})
+	}
+	showHidePassword=()=>
+	{
+if(this.state.showHidePassword === 'icon-hide show_hide_password' && this.state.inputFelid === 'password' )
+{
+	const visible='icon-hide show_hide_password icon-show';
+	const field='text';
+	this.setState({showHidePassword:visible,inputFelid:field})
+}else{
+	this.setState({showHidePassword:'icon-hide show_hide_password',inputFelid:'password'})
+
+}
 	}
     render() { 
+		console.log('this is sign component',this.state.errors);
         return (
-            <React.Fragment>
+            <div className='sigin'>
                 
                 <div className="bg_one"></div>
     <div className="Alert">
@@ -64,17 +163,17 @@ class Sign extends Component {
 		<div className="signin_container">
 			<div className="loader" style={{display: "none"}}></div>
 			<div className="blur_elem blur" style={{display: "none"}}></div>
-			<div className="signin_box" id="signin_flow">
-				<div className="smartsigninbutton" id="smartsigninbtn" onclick="openSmartSignInPage()"> <span className="ssibuttonqricon icon-SmartQR"></span> <span>Try smart sign-in</span> <span className="ssibuttonshineicon icon-shine"></span> </div>
+			<div className="signin_box" id="signin_flow" >
+				<div className={!this.state.getPassword?"smartsigninbutton":"smartsigninbutton hide"} id="smartsigninbtn" onclick="openSmartSignInPage()"> <span className="ssibuttonqricon icon-SmartQR"></span> <span>Try smart sign-in</span> <span className="ssibuttonshineicon icon-shine"></span> </div>
 				<div className="zoho_logo zohopeople"></div>
 				<div id="signin_div">
 					<form name="login" id="login"  ref={this.formInput}>
 						<div className="signin_head"> <span id="headtitle">Sign in</span> <span id="trytitle"></span>
 							<div className="service_name">to access <span>People</span></div>
-							<div className="fielderror"></div>
+							<div className='fielderror'></div>
 						</div>
 						<div className="fieldcontainer">
-							<div className="searchparent" id="login_id_container">
+							<div className="searchparent" id="login_id_container" style={!this.state.getPassword?{display:"block"}:{display:"none"}}>
 								<div className="textbox_div" id="getusername"> <span>
 										<label for="country_code_select" className="select_country_code">+1</label>
 										<select id="country_code_select" onchange="changeCountryCode();" tabindex="-1" className="select2-hidden-accessible" aria-hidden="true">
@@ -86,22 +185,22 @@ class Sign extends Component {
 	                          					
 										</select><span className="select2 select2-container select2-container--default" dir="ltr" style={{width: "50px"}}><span className="selection"><span className="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-labelledby="select2-country_code_select-container"><span className="select2-selection__rendered" id="select2-country_code_select-container" title="United States (+1)">+1</span><span className="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span>
 									</span><span className="dropdown-wrapper" aria-hidden="true"></span></span>
-									<input id="login_id" placeholder="Email address or mobile number"  type="email" name="LOGIN_ID" className="textbox" required="" onkeypress="clearCommonError('login_id')" onkeyup="checking()" onkeydown="checking()" autocapitalize="off" autocomplete="webauthn username email" autocorrect="off" tabindex="1"/> <span className="doaminat hide" onclick="enableDomain()">@</span>
+									<input id="login_id" placeholder="Email address or mobile number" value={this.state.data.LOGIN_ID}  type="email" name="LOGIN_ID" className="textbox" required="" onChange={this.hangleChange} onkeyup="checking()" onkeydown="checking()" autocapitalize="off" autocomplete="webauthn username email" autocorrect="off" tabindex="1"/> <span className="doaminat hide" onclick="enableDomain()">@</span>
 									<div className="textbox hide" id="portaldomain">
 										<select className="domainselect" id="domaincontainer" onchange="handleDomainChange()"></select>
 									</div>
-									<div className="fielderror"></div>
+									<div className={((this.state.errors.LOGIN_ID)?'fielderror errorlabel':'fielderror')}   style={(this.state.errors.LOGIN_ID)?{display: "block"}:{display: "none"}}>{this.state.errors.LOGIN_ID}</div>
 									</span>
 								</div>
 							</div>
-							<div className="getpassword zeroheight" id="password_container">
+							<div className={this.state.getPassword?"getpassword":"getpassword zeroheight"} id="password_container">
 								<div className="hellouser">
-									<div className="username">'phanikumAR@gmail.com'</div> <span className="Notyou bluetext" onclick="resetForm()">Change</span> </div>
+									<div className="username">{this.state.data.LOGIN_ID}</div> <span className="Notyou bluetext" onClick={this.handleUserId}>Change</span> </div>
 								<div className="textbox_div">
-									<input id="password" placeholder="Enter password" name="PASSWORD" type="password" className="textbox" required="" onfocus="this.value = this.value;" onkeypress="clearCommonError('password')" autocapitalize="off" autocomplete="password" autocorrect="off" maxlength="250"/> <span className="icon-hide show_hide_password" onclick="showHidePassword();">
+									<input id="password" placeholder="Enter password" name="PASSWORD" type={this.state.inputFelid} className="textbox" required="" onfocus="this.value = this.value;" onkeypress="clearCommonError('password')" autocapitalize="off" autocomplete="password" autocorrect="off" maxlength="250"/> <span className={this.state.showHidePassword} onClick={this.showHidePassword}>
 									</span>
 									<div className="fielderror"></div>
-									<div className="textbox_actions" id="enableotpoption"> <span className="bluetext_action" id="signinwithotp" onclick="showAndGenerateOtp()">Sign in using OTP</span> <span className="bluetext_action bluetext_action_right" id="blueforgotpassword" onclick="goToForgotPassword();">Forgot Password?</span> </div>
+									<div className="textbox_actions" id="enableotpoption" style={!this.state.getPassword?{display:'none'}:{display:'block'}}> <span className="bluetext_action" id="signinwithotp" onclick="showAndGenerateOtp()">Sign in using OTP</span> <span className="bluetext_action bluetext_action_right" id="blueforgotpassword" onclick="goToForgotPassword();">Forgot Password?</span> </div>
 									<div className="textbox_actions" id="enableforgot"> <span className="bluetext_action bluetext_action_right" id="blueforgotpassword" onclick="goToForgotPassword();">Forgot Password?</span> </div>
 									<div className="textbox_actions_saml" id="enablesaml"> <span className="bluetext_action signinwithsaml" onclick="enableSamlAuth();">Sign in using SAML</span> <span className="bluetext_action bluetext_action_right" id="blueforgotpassword" onclick="goToForgotPassword();">Forgot Password?</span> </div>
 									<div className="textbox_actions_saml" id="enablejwt"> <a href="#" className="bluetext_action signinwithjwt">Sign in using JWT</a> <span className="bluetext_action bluetext_action_right" id="blueforgotpassword" onclick="goToForgotPassword();">Forgot Password?</span> </div>
@@ -119,7 +218,7 @@ class Sign extends Component {
 							</div>
 							<div id="otp_container">
 								<div className="hellouser">
-									<div className="username"></div> <span className="Notyou bluetext" onclick="resetForm()">Change</span> </div>
+									<div className="username"></div> <span className="Notyou bluetext">Change</span> </div>
 								<div className="textbox_div">
 									<input id="otp" placeholder="Enter OTP" type="number" name="OTP" className="textbox" required="" onkeypress="clearCommonError('otp')" autocapitalize="off" autocomplete="off" autocorrect="off"/>
 									<div className="fielderror"></div>
@@ -187,12 +286,15 @@ class Sign extends Component {
 							<div className="text16 pointer nomargin" id="problemsignin_mob" onclick="showproblemsignin()">Problem signing in?</div>
 						</div>
 						<div id="problemsigninui"></div>
-						<button className="btn blue" id="nextbtn" tabindex="2" onClick={this.handleSign}><span>Next</span></button>
+						<button className="btn blue" id="nextbtn" tabIndex="2" onClick={this.handleSign}><span>{!this.state.getPassword?'Next':'Sign In'}</span></button>
 						<div className="btn borderless" onclick="hideBackupOptions()">Back</div>
 						<div className="text16 pointer nomargin" id="recoverybtn" onclick="showCantAccessDevice()">Can't access your device?</div>
 						<div className="text16 pointer nomargin" id="problemsignin" onclick="showproblemsignin()">Problem signing in?</div>
 						<div className="tryanother text16" onclick="showTryanotherWay()">Sign in another way</div>
-						<div className="text16 pointer" id="forgotpassword"><a className="text16" href="#" onclick="goToForgotPassword();">Forgot Password?</a></div>
+						<div className="text16 pointer" id="forgotpassword">
+							<span className="text16" href="" onClick={this.handleForGot} style={!this.state.getPassword?{display: "block"}:{display: "none"}}>Forgot Password?</span>
+							{/* <Link to={{pathname:'/forgotpassword',state:this.state}}>Forgot Password?</Link> */}
+							</div>
 					</form>
 					<div className="externaluser_container"></div>
 					<button className="btn blue" id="continuebtn" onclick="handleLookupDetails(JSON.stringify(deviceauthdetails),true);return false"><span>Continue</span></button>
@@ -267,10 +369,10 @@ class Sign extends Component {
 						<button className="btn blue">Verify</button>
 					</form>
 					<div> </div>
-					<div className="line"> <span className="line_con">
+					<div className="line" style={!this.state.getPassword?{display: "block"}:{display: "none"}}> <span className="line_con">
 		    				<span>Or</span> </span>
 					</div>
-					<div className="fed_2show" style={{display: "block"}} ref={this.signdata}>
+					<div className="fed_2show" style={!this.state.getPassword?{display: "block"}:{display: "none"}} ref={this.signdata}>
 						<div className="signin_fed_text">Sign in using</div> <span className="fed_div google_icon google_fed small_box show_fed" onclick="createandSubmitOpenIDForm('google');" title="Sign in using Google" style={{display: "inline-block"}}>
 						            <div className="fed_center_google">
 						                <span className="icon-google_small fedicon">
@@ -373,7 +475,7 @@ class Sign extends Component {
 		<button className="btn blue trybtn" id="restict_btn" tabindex="2" onclick="window.location.reload()">Try again</button>
 	</div>
 	</div>
-	<div className="rightside_box">
+	<div className="rightside_box" onLoad={this.rightSide}>
 		<div className="mfa_panel hide" style={{display: "none"}}>
 			<div className="product_img" id="product_img"></div>
 			<div className="product_head">Keep your account secure</div>
@@ -425,9 +527,9 @@ class Sign extends Component {
 	
 	
     			
-            </React.Fragment>
+            </div>
         );
     }
 }
  
-export default Sign;
+export default pushRoute(Sign);
