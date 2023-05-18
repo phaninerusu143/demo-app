@@ -160,7 +160,7 @@ class Forgotpassword extends Component {
 
 									<div className="textbox_div" id="captcha_container" style={this.state.visibleField?{display:'block'}:{display:'none'}}>
 										<div id="captcha_img" name="captcha" className="textbox" style={{}}>
-										<img src={`https://dummyimage.com/150x50/ffffff/000000.png&text=${this.state.captchaCode}`} alt="CAPTCHA" align='left' style={{mixBlendMmode: "multiply"}} id="hip" />
+										<img src={`https://dummyimage.com/150x50/ffffff/000000.png&text=${this.state.captchaCode}`} alt="CAPTCHA" align='left' style={{mixBlendMmode: "multiply" ,marginLeft:'-68px'}} id="hip" />
 
 										</div>
 										<span className="reloadcaptcha icon-reload" onClick={this.changeHip} style={{top:"59px"}}> </span>
