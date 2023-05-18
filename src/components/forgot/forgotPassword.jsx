@@ -1,19 +1,36 @@
 import React, { Component, createRef } from 'react'
-import '../common-css/accountrecovery.css'
 import { isNumeric } from 'jquery';
-import { pushRoute } from './pushRoute';
+import { pushRoute } from '../pushRoute';
+import CaptchaCode from 'react-captcha-code';
 class Forgotpassword extends Component {
 	state = {
-		data:{username:''}
+		data:{LOGIN_ID:''},
+		visibleField:'',
+		captchaCode: ''
+	}
+	changeHip=()=>
+	{
+		// alert('calling')
+		this.generateCaptcha();
 	}
 	fieldcontainer=createRef();
+
+	generateCaptcha = () => {
+		const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+		let captchaCode = '';
+		for (let i = 0; i < 6; i++) {
+		  captchaCode += characters.charAt(Math.floor(Math.random() * characters.length));
+		}
+		this.setState({ captchaCode });
+	  };
+
 	handleChange=(e)=>
 	{
 	let {data}=this.state;
-	data.username=e.currentTarget.value;
+	data.LOGIN_ID=e.currentTarget.value;
 	console.log('handleChange',e.currentTarget.value);
 	console.log('handle change filedContainer',this.fieldcontainer);
-	if(isNumeric(data.username)&&!isNaN(this.state.data.username))
+	if(isNumeric(data.LOGIN_ID)&&!isNaN(this.state.data.LOGIN_ID))
 	{
 		console.log('your Enter Mobile number',this.fieldcontainer.current.children[0]);
 		//const {}=
@@ -41,12 +58,52 @@ class Forgotpassword extends Component {
 
 		this.setState({data})
 	};
+	
+	}
+	handleCaptch=(e)=>
+	{
+		e.preventDefault();
+		const visibleField='captch';
+		this.setState({visibleField})
+	}
+	componentDidMount() { 
+		if(this.props.location.state.data.LOGIN_ID){
+			this.generateCaptcha();
+			const {data}=this.state;
+		    data.LOGIN_ID=this.props.location.state.data.LOGIN_ID;
+			this.setState({data,visibleField:'visible'})
+		}
+		
+		// this.setState({data});	
+	 }
+	handleUserid=()=>
+	{
+		console.log('this is handle user id',this.props.location.state)
+		let visibleField='';
+		this.setState({visibleField})
+		// const {data}=this.state;
+		// data.LOGIN_ID=this.props.location.state.data.LOGIN_ID;
+		// console.log('this is handle user id',data.LOGIN_ID);
+
+		//this.setState({data});
+	}
+	firstLoad=()=>
+	{
+		// alert('first calling');
+		var styles = document.createElement('link');
+  styles.rel = 'stylesheet';
+  styles.type = 'text/css';
+  styles.href = 'https://static.zohocdn.com/iam/v2/components/css/accountrecoveryStyle.4897f35d639639f45dfe9dbbf45edb6b.css';
+  document.getElementsByTagName('head')[0].appendChild(styles);
 	}
 	render() {
 		//alert('calling forgot')
-		console.log('this is props............',this.props)
-		console.log('checking ref',this.refe)
+		const {state}=this.props.location;
+		console.log('this is forgot component state props............',state)
+		console.log('checking ref',this.state.visibleField)
+		console.log('check styles..');
 		return (
+			<div className='styles' onLoad={this.firstLoad}>
 			<div className="bg_one">
 				{/* <div className="bg_one">
 
@@ -70,18 +127,18 @@ class Forgotpassword extends Component {
 						<div id="lookup_div" className="recover_sections">
 
 							<div className="info_head">
-								<div className="user_info" id="recovery_user_info" style={{ display: 'none' }}>
-									<span className="menutext"></span>
-									<span className="change_user">Change</span>
+								<div className="user_info" id="recovery_user_info" style={this.state.visibleField?{ display: 'block' }:{ display: 'none' }}>
+									<span className="menutext">{this.state.data.LOGIN_ID}</span>
+									<span className="change_user" onClick={this.handleUserid}>Change</span>
 								</div>
 								<span id="headtitle">Forgot Password</span>
-								<div className="head_info" style={{ fontSize: "15px" }}>Enter your registered email address, mobile number, or username to change your Codegene account password.</div>
+								<div className="head_info" style={this.state.visibleField?{ display: 'none' }:{ fontSize: "15px" }}>Enter your registered email address, mobile number, or username to change your Codegene account password.</div>
 							</div>
 
 							<div className="fieldcontainer" ref={this.fieldcontainer}>
 
 								<form name="login_id_container" onsubmit="return accountLookup(event);" novalidate="">
-									<div className="searchparent" id="login_id_container">
+									<div className="searchparent" id="login_id_container" style={this.state.visibleField?{display:'none'}:{display:'block'}}>
 										<div className="textbox_div">
 											<label htmlFor="country_code_select" className="select_country_code" style={{ display: "none;" }}>+91</label>
 											<select id="country_code_select" onchange="changeCountryCode();" tabIndex="-1" className="select2-hidden-accessible" aria-hidden="true" style={{ display: "none;" }}>
@@ -95,20 +152,23 @@ class Forgotpassword extends Component {
 
 
 											</select><span className="select2 select2-container select2-container--default" dir="ltr" style={{ width: "50px;", display: "none;" }}><span className="selection"><span className="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabIndex="-1" aria-labelledby="select2-country_code_select-container"><span className="select2-selection__rendered" id="select2-country_code_select-container" title="India (+91)">+91</span><span className="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span className="dropdown-wrapper" aria-hidden="true"></span></span>
-											<input id="login_id" placeholder="Email, mobile, or username" type="email" name="LOGIN_ID" className="textbox" required="" onChange={this.handleChange} autocapitalize="off" autocomplete="on" autocorrect="off" tabIndex="1" value={this.state.data.username} />
+											<input id="login_id" placeholder="Email, mobile, or username" type="email" name="LOGIN_ID" className="textbox" required="" onChange={this.handleChange} autocapitalize="off" autocomplete="on" autocorrect="off" tabIndex="1" value={this.state.data.LOGIN_ID} />
 											<div className="fielderror"></div>
 										</div>
 									</div>
 
 
-									<div className="textbox_div" id="captcha_container">
-										<div id="captcha_img" name="captcha" className="textbox"></div>
-										<span className="reloadcaptcha icon-reload" onclick="changeHip()"> </span>
+									<div className="textbox_div" id="captcha_container" style={this.state.visibleField?{display:'block'}:{display:'none'}}>
+										<div id="captcha_img" name="captcha" className="textbox" style={{}}>
+										<img src={`https://dummyimage.com/150x50/ffffff/000000.png&text=${this.state.captchaCode}`} alt="CAPTCHA" align='left' style={{mixBlendMmode: "multiply"}} id="hip" />
+
+										</div>
+										<span className="reloadcaptcha icon-reload" onClick={this.changeHip} style={{top:"59px"}}> </span>
 										<input id="captcha" placeholder="Enter CAPTCHA" type="text" name="captcha" className="textbox" required="" onkeypress="clearCommonError('captcha'),removeCaptchaError()" autocapitalize="off" autocomplete="off" autocorrect="off" maxlength="8" />
 										<div className="fielderror"></div>
 									</div>
 									<span className="captchafielderror"></span>
-									<button className="btn blue" id="nextbtn" tabIndex="2"><span>Next</span></button>
+									<button className="btn blue" id="nextbtn" tabIndex="2" onClick={this.handleCaptch}><span>Next</span></button>
 								</form>
 
 							</div>
@@ -175,7 +235,7 @@ class Forgotpassword extends Component {
 									<span className="change_user">Change</span>
 								</div>
 								<span id="headtitle">Password matched</span>
-								<div className="head_info">The password you entered matches with your current Zoho account password.</div>
+								<div className="head_info">The password you entered matches with your current Codegene account password.</div>
 							</div>
 
 							<div className="fieldcontainer">
@@ -193,7 +253,7 @@ class Forgotpassword extends Component {
 
 								<div className="user_info_space user_info" id="recovery_user_info" onclick="change_user()" style={{ display: "none;" }}>
 									<span className="menutext"></span>
-									<span className="change_user">Change</span>
+									<span className="change_user" onclick={this.handleUserid}>Change</span>
 								</div>
 
 								<span id="headtitle">Forgot Password</span>
@@ -1184,7 +1244,7 @@ class Forgotpassword extends Component {
 					</div>
 				</div>
 			</div>
-
+</div>
 		);
 	}
 }

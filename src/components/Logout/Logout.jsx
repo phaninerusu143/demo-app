@@ -1,11 +1,12 @@
 import React from 'react'
-import "./lougout.scss"
+import styles from "./lougout.scss"
 import "../../App.css"
 export default function Logout() {
+  console.log('styles',styles)
   return (
     <>
-    <div className='logout'>
-                <div className='error'>text1</div>
+    <div className={styles}>
+                <div className={styles.error}>text1</div>
     </div>
     <div className='btn'>
         text2

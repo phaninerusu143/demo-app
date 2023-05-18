@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
-import './css/signinnew.min.5f16472f773ea0ff3caa7a3fff2e7e06.css'
-import { pushRoute } from './pushRoute';
+import  './signinnewfff2e7e06.scss'
+
+import { pushRoute } from '../pushRoute';
 import Joi from 'joi';
 class Sign extends Component {
     state = { data:{LOGIN_ID:''},
@@ -139,9 +140,9 @@ if(this.state.showHidePassword === 'icon-hide show_hide_password' && this.state.
 }
 	}
     render() { 
-		console.log('this is sign component',this.state.errors);
+		console.log('this is sign component.......>',this.state.errors);
         return (
-            <div className='sigin'>
+            <div className='signinnewfff2e7e06'>
                 
                 <div className="bg_one"></div>
     <div className="Alert">
@@ -193,7 +194,7 @@ if(this.state.showHidePassword === 'icon-hide show_hide_password' && this.state.
 									</span>
 								</div>
 							</div>
-							<div className={this.state.getPassword?"getpassword":"getpassword zeroheight"} id="password_container">
+							<div className={this.state.getPassword?"getpassword":"getpassword zeroheight"} id="password_container" style={this.state.getPassword?{display:'block'}:{display:'none'}}>
 								<div className="hellouser">
 									<div className="username">{this.state.data.LOGIN_ID}</div> <span className="Notyou bluetext" onClick={this.handleUserId}>Change</span> </div>
 								<div className="textbox_div">
@@ -287,7 +288,6 @@ if(this.state.showHidePassword === 'icon-hide show_hide_password' && this.state.
 						</div>
 						<div id="problemsigninui"></div>
 						<button className="btn blue" id="nextbtn" tabIndex="2" onClick={this.handleSign}><span>{!this.state.getPassword?'Next':'Sign In'}</span></button>
-						<div className="btn borderless" onclick="hideBackupOptions()">Back</div>
 						<div className="text16 pointer nomargin" id="recoverybtn" onclick="showCantAccessDevice()">Can't access your device?</div>
 						<div className="text16 pointer nomargin" id="problemsignin" onclick="showproblemsignin()">Problem signing in?</div>
 						<div className="tryanother text16" onclick="showTryanotherWay()">Sign in another way</div>
