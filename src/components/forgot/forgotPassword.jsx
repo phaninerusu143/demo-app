@@ -2,6 +2,7 @@ import React, { Component, createRef } from 'react'
 import { isNumeric } from 'jquery';
 import { pushRoute } from '../pushRoute';
 import CaptchaCode from 'react-captcha-code';
+import {Helmet} from 'react-helmet';
 class Forgotpassword extends Component {
 	state = {
 		data:{LOGIN_ID:''},
@@ -90,11 +91,11 @@ class Forgotpassword extends Component {
 	firstLoad=()=>
 	{
 		// alert('first calling');
-		var styles = document.createElement('link');
-  styles.rel = 'stylesheet';
-  styles.type = 'text/css';
-  styles.href = 'https://static.zohocdn.com/iam/v2/components/css/accountrecoveryStyle.4897f35d639639f45dfe9dbbf45edb6b.css';
-  document.getElementsByTagName('head')[0].appendChild(styles);
+// 		var styles = document.createElement('link');
+//   styles.rel = 'stylesheet';
+//   styles.type = 'text/css';
+//   styles.href = 'https://static.zohocdn.com/iam/v2/components/css/accountrecoveryStyle.4897f35d639639f45dfe9dbbf45edb6b.css';
+//   document.getElementsByTagName('head')[0].appendChild(styles);
 	}
 	render() {
 		//alert('calling forgot')
@@ -102,7 +103,10 @@ class Forgotpassword extends Component {
 		console.log('this is forgot component state props............',state)
 		console.log('checking ref',this.state.visibleField)
 		console.log('check styles..');
-		return (
+		return (<>
+			<Helmet>
+			<link rel="stylesheet" href="https://static.zohocdn.com/iam/v2/components/css/accountrecoveryStyle.4897f35d639639f45dfe9dbbf45edb6b.css"/>
+			</Helmet>
 			<div className='styles' onLoad={this.firstLoad}>
 			<div className="bg_one">
 				{/* <div className="bg_one">
@@ -1243,8 +1247,15 @@ class Forgotpassword extends Component {
 
 					</div>
 				</div>
+				<footer id="footer" style={{top: "624px;"}}> 
+
+	<span>
+		© 2023, <a href="http://www.zohocorp.com/" target="_blank">Codegene Pvt. Ltd.</a> All Rights Reserved.	</span>
+	
+</footer>
 			</div>
 </div>
+</>
 		);
 	}
 }

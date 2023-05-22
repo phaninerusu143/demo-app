@@ -1,6 +1,29 @@
-import React, { Component } from "react";
+import React, { Component, createRef } from "react";
+import timer from "../test_file/timer";
 class Signotp extends Component {
-  state = {};
+  state = {
+    sec:20,
+    disable:'disble'
+  };
+  timer=createRef();
+  validateOTP=()=>
+  {
+    alert('hi');
+  }
+
+componentDidMount() { 
+  const intervel=setInterval(()=>{
+    let sec=this.state.sec-1;
+    if(sec===0)
+    {
+clearInterval(intervel);
+this.setState({disable:''})
+    }
+    this.setState({sec})
+
+  },1000)
+ }
+// setInterval(this.handleTimer, 1000);
   render() {
     const {mobile, handleChangemobile}=this.props;
     return (
@@ -26,9 +49,10 @@ class Signotp extends Component {
               placeholder=""
               style={{ width: "100%", height: "50px" }}
             />
-            <span onclick="resendOTP()" className="resendotp">
+            <span onclick="resendOTP()" className="resendotp" style={this.state.disable?{display:'none'}:{opacity:'block'}}>
               Resend OTP
             </span>{" "}
+            <span style={{float:'right',marginTop:'8px'}}>00:{this.state.sec}'s</span>
           </span>{" "}
           <span className="za-submitbtn-otp">
             <input
@@ -36,9 +60,11 @@ class Signotp extends Component {
               tabIndex="1"
               className="signupbtn changeloadbtn"
               value="VERIFY"
-              onclick="validateOTP()"
+              onClick={this.validateOTP}
               name="otpfield"
               placeholder=""
+              style={this.state.disable?{opacity:'1'}:{opacity:'0.4'}}
+              disabled={this.state.disable?'':'disbilbe'}
             />
             <div className="loadingImg"></div>
           </span>

@@ -234,7 +234,7 @@ class Form extends Component {
                   placeholder=""
                 />
                 <span
-                  className={value.check?'checked':'unchecked'}
+                  className={value.data.check?'checked':'unchecked'}
                   onClick={(e)=>handleCheck(e)}
                   id="signup-termservice"
                 >
@@ -259,6 +259,13 @@ class Form extends Component {
                 </a>
                 .{" "}
               </label>
+              <div className="field-msg">
+                {value.errors.check && (
+                  <span id="password-error" className="error jqval-error">
+                    {value.errors.check}
+                  </span>
+                )}
+              </div>
             </div>
             {/* //submit */}
             <div className="sgnbtn">
